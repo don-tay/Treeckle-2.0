@@ -5,26 +5,19 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const graphqlHTTP = require('express-graphql');
 
-const keys = require('./config/keys')
+const connectDB = require('./config/db.js');
 const schema = require('./graphql/schema');
 
+// Load config variables
 dotenv.config({ path: './config/config.env' });
+
+// Connect to database
+connectDB();
 
 const app = express();
 
-//Connect to DB
-mongoose.connect(
-  keys.databaseURI,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-  },
-  () => {
-    console.log("Connected to mongoDB");
-  }
-);
+// Express JSON parser
+app.use(express.json());
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
@@ -36,7 +29,7 @@ app.use(
   graphqlHTTP({
     schema,
     graphiql: true,
-  }),
+  })
 );
 
 const PORT = process.env.PORT || 5000;
