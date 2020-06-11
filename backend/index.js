@@ -2,10 +2,9 @@ const express = require('express');
 const colors = require('colors');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
-const mongoose = require('mongoose');
 const graphqlHTTP = require('express-graphql');
 
-const connectDB = require('./config/db.js');
+const connectDB = require('./config/db');
 const schema = require('./graphql/schema');
 
 // Load config variables
